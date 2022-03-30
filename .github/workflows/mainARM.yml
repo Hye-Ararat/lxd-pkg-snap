@@ -49,4 +49,4 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: snap
-        snap: ${{ steps.build.outputs.snap }}
+        path: ${{ steps.build.outputs.snap }}
