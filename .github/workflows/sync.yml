@@ -14,6 +14,6 @@ jobs:
       - uses: tgymnich/fork-sync@v1.4
         with:
           token: ${{ github.token }}
-          owner: $current_repo_owner
+          owner: Hye-Ararat
           base: latest-candidate
           head: latest-candidate
