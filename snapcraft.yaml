@@ -692,7 +692,7 @@ parts:
       - --disable-slirp
       - --disable-user
       - --disable-vdi
-      - --disable-vnc
+      - --enable-vnc
       - --disable-xen
       - --enable-attr
       - --enable-cap-ng
