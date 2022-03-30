@@ -25,10 +25,20 @@ jobs:
             distro: ubuntu20.04
     steps:
     - uses: actions/checkout@v2
+    - uses: uraimo/run-on-arch-action@v2
     - uses: snapcore/action-build@v1
     - uses: snapcore/action-build@v1
       id: snapcraft
     - uses: actions/upload-artifact@v2
       with:
+        arch: ${{ matrix.arch }}
+        distro: ${{ matrix.distro }}
+        githubToken: ${{ github.token }}
         name: snap
         path: ${{ steps.snapcraft.outputs.snap }}
+        run: |
+            uname -a
+            echo ::set-output name=uname::$(uname -a)
+    - name: Get the output
+      run: |
+          echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
