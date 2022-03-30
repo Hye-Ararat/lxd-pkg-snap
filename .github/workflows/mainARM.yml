@@ -1,26 +1,25 @@
-# This is a basic workflow to help you get started with Actions
-
-name: ARM CI
-
-# Controls when the workflow will run
+name: Build and Release Snap
+ 
 on:
-  # Triggers the workflow on push or pull request events but only for the latest-candidate branch
   push:
-    branches: [ latest-candidate ]
-  pull_request:
-    branches: [ latest-candidate ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+    branches:
+    - latest-candidate
+ 
 jobs:
-  build:
+  build-stable:
     runs-on: ubuntu-latest
+    
+    # Let's build for many architectures..
+    strategy:
+      matrix:
+        architecture:
+        - linux/arm64
     steps:
+    # Checkout the code of our Repository
     - uses: actions/checkout@v2
-    - uses: diddlesnaps/snapcraft-multiarch-action@v1
-      id: snapcraft
+
+    # Do the build!
+    - id: build
       run: |
         # Enable docker daemon support for --platform parameter
         echo '{"experimental": true}' | sudo tee /etc/docker/daemon.json > /dev/null
@@ -46,8 +45,8 @@ jobs:
           diddledan/snapcraft:core18
 
         echo ::set-output name=snap::$(find $GITHUB_WORKSPACE -maxdepth 1 -type f -name "*.snap" | head -n1)
-    - uses: actions/upload-artifact@v2
+
+    - uses: actions/upload-artifact@v3
       with:
-        architecture: arm64
         name: snap
-        path: ${{ steps.snapcraft.outputs.snap }}
+        snap: ${{ steps.build.outputs.snap }}
