@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v2
 
     # Do the build!
-    - id: build
+    - id: snapcraft
       run: |
         # Enable docker daemon support for --platform parameter
         echo '{"experimental": true}' | sudo tee /etc/docker/daemon.json > /dev/null
