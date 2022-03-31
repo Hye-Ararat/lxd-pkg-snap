@@ -19,6 +19,7 @@ jobs:
     - uses: actions/checkout@v2
 
     # Do the build!
+    - uses: docker/setup-qemu-action@v1
     - uses: diddlesnaps/snapcraft-multiarch-action@v1
       id: snapcraft
       with:
