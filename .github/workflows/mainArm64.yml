@@ -15,10 +15,16 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  cleaner:
+    runs-on: self-hosted
+    steps:
+      - name: CLEAN
+        run: |
+          echo "CLEANING"
+          rm -rf "${{ github.workspace }}"
   build:
     runs-on: [self-hosted, Linux, ARM64]
     steps:
-    - uses: AutoModality/action-clean@v1
     - uses: actions/checkout@v2
     - uses: snapcore/action-build@v1
       id: snapcraft
