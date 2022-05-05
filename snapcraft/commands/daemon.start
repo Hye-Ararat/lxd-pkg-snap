@@ -37,7 +37,7 @@ if echo "${SNAP_MODEL}" | grep -q "^lxd-core"; then
 fi
 
 # Workaround for systemd nuking our cgroups on refreshes
-nsenter -t 1 -m systemd-run -u snap.lxd.workaround -p Delegate=yes -r /bin/true >/dev/null 2>&1 || true
+nsenter -t 1 -m systemd-run -u snap.${SNAP_INSTANCE_NAME}.workaround -p Delegate=yes -r /bin/true >/dev/null 2>&1 || true
 
 # Cleanup last state
 true > "${SNAP_COMMON}/state"
@@ -162,6 +162,11 @@ export PATH="/run/bin:${PATH}"
 if [ "${ceph_external:-"false"}" = "true" ]; then
     ln -s "${SNAP}/wrappers/run-host" "/run/bin/ceph"
     ln -s "${SNAP}/wrappers/run-host" "/run/bin/rbd"
+fi
+
+if [ "${openvswitch_external:-"false"}" = "true" ]; then
+    ln -s "${SNAP}/wrappers/run-host" "/run/bin/ovs-appctl"
+    ln -s "${SNAP}/wrappers/run-host" "/run/bin/ovs-vsctl"
 fi
 
 if [ "${lvm_external:-"false"}" = "true" ]; then
