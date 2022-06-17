@@ -189,6 +189,8 @@ if [ "${lvm_external:-"false"}" = "true" ]; then
     ln -s "${SNAP}/wrappers/run-host" "/run/bin/lvresize"
 fi
 
+# Redirect getent to the host
+ln -s "${SNAP}/wrappers/run-host" "/run/bin/getent"
 
 # Avoid xtables talking to nft
 ln -s "${SNAP}/bin/arptables-legacy" "/run/bin/arptables"
@@ -316,7 +318,7 @@ fi
 
 # Rotate logs
 echo "==> Rotating logs"
-logrotate -f "${SNAP}/etc/logrotate.conf" -s "/etc/logrotate.status"
+logrotate -f "${SNAP}/etc/logrotate.conf" -s "/etc/logrotate.status" || true
 
 # Setup for ZFS
 if [ -e /sys/module/zfs/version ]; then
@@ -563,6 +565,10 @@ fi
 
 if [ "${daemon_syslog:-"false"}" = "true" ]; then
     CMD="${CMD} --syslog"
+fi
+
+if [ "${daemon_verbose:-"false"}" = "true" ]; then
+    CMD="${CMD} --verbose"
 fi
 
 # Check if this is the first time LXD is started.
