@@ -582,6 +582,8 @@ parts:
       git config user.email "noreply@linuxcontainers.org"
       git config user.name "LXD snap builder"
 
+      git am "${SNAPCRAFT_PROJECT_DIR}/patches/ovs-0001-idl-support-write-only.patch"  # ovsdb-idl: Support write-only-changed IDL monitor mode.
+
       set +ex
       snapcraftctl build
       set -ex
@@ -602,7 +604,7 @@ parts:
       - openvswitch
     source: https://github.com/ovn-org/ovn
     source-type: git
-    source-tag: v22.03.0
+    source-tag: v22.06.0
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
