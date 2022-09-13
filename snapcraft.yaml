@@ -1283,7 +1283,7 @@ parts:
 
   lxd:
     build-attributes: [core22-step-dependencies]
-    source: https://github.com/lxc/lxd
+    source: https://github.com/Hye-Ararat/lxd
     source-type: git
     source-tag: lxd-5.5
     after:
