@@ -515,12 +515,17 @@ parts:
     source: https://github.com/minio/minio
     source-type: git
     source-tag: RELEASE.2022-09-17T00-09-45Z
+    source-depth: 1
     plugin: nil
     build-snaps:
       - go
     override-pull: |
+      [ "$(uname -m)" = "riscv64" ] && exit 0
+
       snapcraftctl pull
     override-build: |
+      [ "$(uname -m)" = "riscv64" ] && exit 0
+
       set -ex
 
       # Setup build environment
@@ -533,7 +538,7 @@ parts:
       mkdir -p ${SNAPCRAFT_PART_INSTALL}/bin/
       cp minio ${SNAPCRAFT_PART_INSTALL}/bin/minio
     prime:
-      - bin/minio
+      - bin/minio*
 
   nano:
     build-attributes: [core22-step-dependencies]
@@ -552,6 +557,7 @@ parts:
     source: https://github.com/netwide-assembler/nasm
     source-type: git
     source-tag: nasm-2.15.05
+    source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
       - --prefix=
@@ -636,6 +642,7 @@ parts:
     source: https://github.com/openvswitch/ovs
     source-type: git
     source-tag: v3.0.0
+    source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
       - --enable-ssl
