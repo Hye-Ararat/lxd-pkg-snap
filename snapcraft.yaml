@@ -386,7 +386,7 @@ parts:
       - libmnl
     source: https://git.netfilter.org/libnftnl
     source-type: git
-    source-tag: libnftnl-1.2.3
+    source-tag: libnftnl-1.2.4
     plugin: autotools
     autotools-configure-parameters:
       - --prefix=
@@ -435,7 +435,7 @@ parts:
     build-attributes: [core22-step-dependencies]
     source: https://github.com/axboe/liburing
     source-type: git
-    source-tag: liburing-2.2
+    source-tag: liburing-2.3
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -514,7 +514,7 @@ parts:
     build-attributes: [core22-step-dependencies]
     source: https://github.com/minio/minio
     source-type: git
-    source-tag: RELEASE.2022-09-17T00-09-45Z
+    source-tag: RELEASE.2022-11-17T23-20-09Z
     source-depth: 1
     plugin: nil
     build-snaps:
@@ -641,7 +641,7 @@ parts:
     build-attributes: [core22-step-dependencies]
     source: https://github.com/openvswitch/ovs
     source-type: git
-    source-tag: v3.0.0
+    source-tag: v3.0.1
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -701,7 +701,7 @@ parts:
       - spice-protocol
     source: https://github.com/freedesktop/spice
     source-type: git
-    source-tag: v0.15.0
+    source-tag: v0.15.1
     source-depth: 1
     plugin: meson
     meson-parameters:
@@ -736,7 +736,7 @@ parts:
       - libtpms
     source: https://github.com/stefanberger/swtpm
     source-type: git
-    source-tag: v0.7.3
+    source-tag: v0.8.0
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -944,7 +944,7 @@ parts:
     source: https://github.com/sqlite/sqlite
     source-type: git
     source-depth: 1
-    source-tag: version-3.39.3
+    source-tag: version-3.40.0
     plugin: autotools
     autotools-configure-parameters:
       - --prefix=
@@ -1182,7 +1182,7 @@ parts:
     build-attributes: [core22-step-dependencies]
     source: https://github.com/openzfs/zfs
     source-type: git
-    source-tag: zfs-2.1.5
+    source-tag: zfs-2.1.6
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
