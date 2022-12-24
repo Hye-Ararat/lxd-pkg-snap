@@ -518,7 +518,7 @@ parts:
     source-depth: 1
     plugin: nil
     build-snaps:
-      - go
+      - go/1.18/stable
     override-pull: |
       [ "$(uname -m)" = "riscv64" ] && exit 0
 
@@ -1332,6 +1332,8 @@ parts:
       git cherry-pick 90ceb28d83c068a6bb03a077741968db5ddc10ad  # README: how to build with sanitizers
       git cherry-pick e5e541e83c4624438bb7a6cd2ff11f3d7b38eab5  # cpuset_parse: check input string in cpuset_nexttok
       git cherry-pick 853f003311476fef47c26780cc4528a8d6b0b215  # github: enable ASAN and UBSAN during PR tests
+      git cherry-pick 42cc0a0e85d50b30b94f07f0428c1f3d668621f1  # lxcfs: explicitly enable direct_IO for libfuse3
+      git cherry-pick a8f7fe95034b47a108a9ca2af777be039613eb0e  # lxcfs: fix copypaste typo in error message
 
       set +ex
       snapcraftctl build
@@ -1353,7 +1355,7 @@ parts:
       - libudev-dev
       - pkg-config
     build-snaps:
-      - go
+      - go/1.18/stable
     stage-packages:
       - acl
       - attr
@@ -1391,6 +1393,14 @@ parts:
       git config user.name "LXD snap builder"
 
       git cherry-pick 34b3cd04c3887d00c43c077d32d9d5590ad4cbac  # lxd/storage/ceph: Remove osd map timeout
+      git cherry-pick 7aad038628918787ef75da86e3d7f4bcd66bc03c  # lxd/instance/drivers/qmp: Don't mask unexpected monitor response errors with sentinel
+      git cherry-pick 15fea8f692d411d2ba9a8f14f1324f1f084d6736  # lxd/util/http: Update EtagCheck to return api.StatusError with http.StatusPreconditionFailed
+      git cherry-pick 9d112d1ee91c9ae3466bf76d0ea4c122d9cb5580  # lxd/instance/drivers/driver/qemu: Show actual qemu path in checkFeatures
+      git cherry-pick 5aa3ac052e31f18905191cc6499785639990c9c6  # lxd/instance/drivers/driver/qemu: Remove -bios flag from qemu feature check invocation
+      git cherry-pick 9160f81c90a7914f8366421af481f0e7cc424c2a  # lxd/instance/drivers/driver/qemu: Extract stderr output from qemu during checkFeatures
+      git cherry-pick 15e73e71cf2204f740f5b6cce1d1144baf098493  # lxd/instance/drivers/driver/qemu: Add -no-user-config to qemu invocation in checkFeatures
+      git cherry-pick 62df19331775f428b06b9f7525cbb017a78c5cc8  # lxd/instance/drivers/driver/qemu: Update architectureSupportsUEFI to add arch argumnent
+      git cherry-pick d0f2ca8c9ff333ba9364326865646320035d5c10  # lxd/instance/drivers/driver/qemu: Update checkFeatures to add -bios flag for UEFI architectures
 
       # Setup build environment
       export GOPATH=$(realpath ./.go)
@@ -1448,7 +1458,7 @@ parts:
       - lxd
       - sqlite
     build-snaps:
-      - go
+      - go/1.18/stable
     plugin: nil
     override-pull: |
       snapcraftctl pull
@@ -1488,7 +1498,7 @@ parts:
     build-attributes: [core22-step-dependencies]
     source: snap-query/
     build-snaps:
-      - go
+      - go/1.18/stable
     plugin: nil
     override-build: |
       set -ex
