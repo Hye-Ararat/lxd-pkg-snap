@@ -308,7 +308,7 @@ parts:
     override-pull: |-
       [ "$(uname -m)" != "x86_64" ] && [ "$(uname -m)" != "aarch64" ] && exit 0
       set -ex
-      git clone https://github.com/tianocore/edk2 . -b edk2-stable202208
+      git clone https://github.com/tianocore/edk2 . -b edk2-stable202211
 
       git config user.email "noreply@linuxcontainers.org"
       git config user.name "LXD snap builder"
@@ -515,7 +515,7 @@ parts:
     build-attributes: [core22-step-dependencies]
     source: https://github.com/minio/minio
     source-type: git
-    source-tag: RELEASE.2022-11-17T23-20-09Z
+    source-tag: RELEASE.2023-01-12T02-06-16Z
     source-depth: 1
     plugin: nil
     build-snaps:
@@ -577,7 +577,7 @@ parts:
       - libnftnl
     source: https://git.netfilter.org/nftables
     source-type: git
-    source-tag: v1.0.5
+    source-tag: v1.0.6
     plugin: autotools
     autotools-configure-parameters:
       - --prefix=
@@ -642,7 +642,7 @@ parts:
     build-attributes: [core22-step-dependencies]
     source: https://github.com/openvswitch/ovs
     source-type: git
-    source-tag: v3.0.1
+    source-tag: v3.0.3
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -676,7 +676,7 @@ parts:
       - openvswitch
     source: https://github.com/ovn-org/ovn
     source-type: git
-    source-tag: v22.09.0
+    source-tag: v22.09.1
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -945,7 +945,7 @@ parts:
     source: https://github.com/sqlite/sqlite
     source-type: git
     source-depth: 1
-    source-tag: version-3.40.0
+    source-tag: version-3.40.1
     plugin: autotools
     autotools-configure-parameters:
       - --prefix=
@@ -959,7 +959,7 @@ parts:
     build-attributes: [core22-step-dependencies]
     source: https://github.com/AgentD/squashfs-tools-ng
     source-type: git
-    source-tag: v1.1.4
+    source-tag: v1.2.0
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -1183,7 +1183,7 @@ parts:
     build-attributes: [core22-step-dependencies]
     source: https://github.com/openzfs/zfs
     source-type: git
-    source-tag: zfs-2.1.6
+    source-tag: zfs-2.1.7
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -1338,6 +1338,7 @@ parts:
       git cherry-pick c8c28aec8b438cd688f75fe5db0d9f5de688137e  # /proc/stat: render physical cpu number in non-view mode
       git cherry-pick 8a54e90e0df4125c881c2444e22db62d3ac0b810  # sysfs: don't mask cpus in /sys/devices/system/cpu
       git cherry-pick f4d0253f4c42d8837c26a4000841e98bd24cb89d  # lxcfs: handle NULL path in lxcfs_releasedir/lxcfs_release
+      git cherry-pick 8e2dfeb1a277c77426675065568e792d3e1f4fc1  # cpuview: fix ABBA deadlock in find_proc_stat_node
 
       set +ex
       snapcraftctl build
