@@ -2,7 +2,7 @@ name: lxd
 base: core20
 assumes:
   - snapd2.39
-version: "5.10"
+version: "5.11"
 grade: stable
 summary: LXD - container and VM manager
 description: |-
@@ -515,7 +515,7 @@ parts:
     build-attributes: [core22-step-dependencies]
     source: https://github.com/minio/minio
     source-type: git
-    source-tag: RELEASE.2023-01-12T02-06-16Z
+    source-tag: RELEASE.2023-02-10T18-48-39Z
     source-depth: 1
     plugin: nil
     build-snaps:
@@ -611,7 +611,7 @@ parts:
       - libseccomp
     source: https://github.com/NVIDIA/libnvidia-container
     source-type: git
-    source-tag: v1.11.0
+    source-tag: v1.12.0
     source-depth: 1
     plugin: make
     build-packages:
@@ -642,7 +642,7 @@ parts:
     build-attributes: [core22-step-dependencies]
     source: https://github.com/openvswitch/ovs
     source-type: git
-    source-tag: v3.0.3
+    source-tag: v3.1.0
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -676,7 +676,7 @@ parts:
       - openvswitch
     source: https://github.com/ovn-org/ovn
     source-type: git
-    source-tag: v22.09.1
+    source-tag: v22.12.0
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -1183,7 +1183,7 @@ parts:
     build-attributes: [core22-step-dependencies]
     source: https://github.com/openzfs/zfs
     source-type: git
-    source-tag: zfs-2.1.7
+    source-tag: zfs-2.1.9
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -1330,7 +1330,7 @@ parts:
     build-attributes: [core22-step-dependencies]
     source: https://github.com/lxc/lxd
     source-type: git
-    source-tag: lxd-5.10
+    source-tag: lxd-5.11
     after:
       - lxc
       - dqlite
@@ -1376,9 +1376,6 @@ parts:
       cd ../src
       git config user.email "noreply@linuxcontainers.org"
       git config user.name "LXD snap builder"
-
-      git cherry-pick a1dc7c3f5bd1c46b7dd5914500c9baf687fe22cb  # lxd/instances_post: Fix copying profiles during instance copy
-      git cherry-pick 124b908e55c8ff7da9a91b6989a5af782c8017ff  # lxc/migrate: Make live migration error message more helpful
 
       # Setup build environment
       export GOPATH=$(realpath ./.go)
