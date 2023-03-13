@@ -226,7 +226,7 @@ done
 
 ## And the bits we need from the core snap
 for entry in alternatives apparmor apparmor.d; do
-    ln -s "/snap/core20/current/etc/${entry}" "/etc/${entry}"
+    ln -s "/snap/core22/current/etc/${entry}" "/etc/${entry}"
 done
 
 ## And those we directly ship in the snap
@@ -242,7 +242,7 @@ if [ -e "/var/lib/snapd/hostfs/etc/ssl" ] && [ -e "/var/lib/snapd/hostfs/usr/sha
     ln -s "/var/lib/snapd/hostfs/etc/ssl" "/etc/ssl"
     mountpoint -q "/usr/share/ca-certificates" || mount -o bind "/var/lib/snapd/hostfs/usr/share/ca-certificates" "/usr/share/ca-certificates"
 else
-    ln -s "/snap/core20/current/etc/ssl" "/etc/ssl"
+    ln -s "/snap/core22/current/etc/ssl" "/etc/ssl"
 fi
 
 ## Try to handle special /etc/resolv.conf setups
@@ -348,14 +348,6 @@ elif echo "${VERSION}" | grep -q ^0\.8; then
     echo "==> Setting up ZFS (0.8)"
     export LD_LIBRARY_PATH="${SNAP_CURRENT}/zfs-0.8/lib/:${LD_LIBRARY_PATH}"
     export PATH="${SNAP_CURRENT}/zfs-0.8/bin:${PATH}"
-elif echo "${VERSION}" | grep -q ^0\.7; then
-    echo "==> Setting up ZFS (0.7)"
-    export LD_LIBRARY_PATH="${SNAP_CURRENT}/zfs-0.7/lib/:${LD_LIBRARY_PATH}"
-    export PATH="${SNAP_CURRENT}/zfs-0.7/bin:${PATH}"
-elif echo "${VERSION}" | grep -q ^0\.6; then
-    echo "==> Setting up ZFS (0.6)"
-    export LD_LIBRARY_PATH="${SNAP_CURRENT}/zfs-0.6/lib/:${LD_LIBRARY_PATH}"
-    export PATH="${SNAP_CURRENT}/zfs-0.6/bin:${PATH}"
 fi
 
 # Escape resource limits
