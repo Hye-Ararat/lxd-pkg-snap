@@ -2,7 +2,7 @@ name: lxd
 base: core22
 assumes:
   - snapd2.39
-version: "5.15"
+version: "5.16"
 grade: stable
 summary: LXD - container and VM manager
 description: |-
@@ -53,10 +53,10 @@ description: |-
  For system-wide configuration of the CLI, place your configuration in
  /var/snap/lxd/common/global-conf/ (config.yml and servercerts)
 
-contact: lxc-devel@lists.linuxcontainers.org
-issues: https://github.com/lxc/lxd/issues
-source-code: https://github.com/lxc/lxd
-website: https://linuxcontainers.org/lxd
+contact: lxd@lists.canonical.com
+issues: https://github.com/canonical/lxd/issues
+source-code: https://github.com/canonical/lxd
+website: https://ubuntu.com/lxd
 confinement: strict
 
 apps:
@@ -320,6 +320,7 @@ parts:
       cp "${CRAFT_PROJECT_DIR}/patches/edk2-0002-logo.bmp" MdeModulePkg/Logo/Logo.bmp
       patch -p1 < "${CRAFT_PROJECT_DIR}/patches/edk2-0003-boot-delay.patch"
       patch -p1 < "${CRAFT_PROJECT_DIR}/patches/edk2-0004-gcc-errors.patch"
+      patch --binary -p1 < "${CRAFT_PROJECT_DIR}/patches/edk2-0005-disable-dynamic-mmio-winsize.patch"
 
       # Setup CSM blob
       if [ "$(uname -m)" = "x86_64" ]; then
@@ -417,7 +418,7 @@ parts:
       - libmnl
     source: https://git.netfilter.org/libnftnl
     source-type: git
-    source-tag: libnftnl-1.2.5
+    source-tag: libnftnl-1.2.6
     plugin: autotools
     autotools-configure-parameters:
       - --prefix=
@@ -463,7 +464,7 @@ parts:
   liburing:
     source: https://github.com/axboe/liburing
     source-type: git
-    source-tag: liburing-2.3
+    source-tag: liburing-2.4
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -538,7 +539,7 @@ parts:
   minio:
     source: https://github.com/minio/minio
     source-type: git
-    source-tag: RELEASE.2023-05-18T00-05-36Z
+    source-tag: RELEASE.2023-07-11T21-29-34Z
     source-depth: 1
     plugin: nil
     build-snaps:
@@ -630,7 +631,7 @@ parts:
       - libseccomp
     source: https://github.com/NVIDIA/libnvidia-container
     source-type: git
-    source-tag: v1.13.1
+    source-tag: v1.13.4
     source-depth: 1
     plugin: make
     build-packages:
@@ -664,7 +665,7 @@ parts:
   openvswitch:
     source: https://github.com/openvswitch/ovs
     source-type: git
-    source-tag: v3.1.1
+    source-tag: v3.1.2
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -697,7 +698,7 @@ parts:
       - openvswitch
     source: https://github.com/ovn-org/ovn
     source-type: git
-    source-tag: v23.03.0
+    source-tag: v23.06.0
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -856,7 +857,7 @@ parts:
     override-pull: |-
       [ "$(uname -m)" != "x86_64" ] && [ "$(uname -m)" != "aarch64" ] && [ "$(uname -m)" != "ppc64le" ] && [ "$(uname -m)" != "s390x" ] && exit 0
       set -ex
-      git clone https://gitlab.com/qemu-project/qemu . -b v8.0.0
+      git clone https://gitlab.com/qemu-project/qemu . -b v8.0.3
 
     override-build: |-
       [ "$(uname -m)" != "x86_64" ] && [ "$(uname -m)" != "aarch64" ] && [ "$(uname -m)" != "ppc64le" ] && [ "$(uname -m)" != "s390x" ] && exit 0
@@ -1147,7 +1148,7 @@ parts:
   zfs-2-1:
     source: https://github.com/openzfs/zfs
     source-type: git
-    source-tag: zfs-2.1.11
+    source-tag: zfs-2.1.12
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -1176,6 +1177,40 @@ parts:
       mv "${CRAFT_PART_INSTALL}.tmp/sbin/zpool" "${CRAFT_PART_INSTALL}/zfs-2.1/bin/"
       mv "${CRAFT_PART_INSTALL}.tmp/lib/udev/zvol_id" "${CRAFT_PART_INSTALL}/zfs-2.1/bin/"
       mv "${CRAFT_PART_INSTALL}.tmp/lib/"*so* "${CRAFT_PART_INSTALL}/zfs-2.1/lib/"
+      rm -Rf "${CRAFT_PART_INSTALL}.tmp"
+
+  zfs-2-2:
+    source: https://github.com/openzfs/zfs
+    source-type: git
+    source-tag: zfs-2.2.0-rc1
+    source-depth: 1
+    plugin: autotools
+    autotools-configure-parameters:
+      - --prefix=/
+      - --with-config=user
+    build-packages:
+      - libblkid-dev
+      - libssl-dev
+      - uuid-dev
+      - zlib1g-dev
+    override-build: |
+      set -ex
+
+      [ "$(uname -m)" != "x86_64" ] && \
+        [ "$(uname -m)" != "aarch64" ] && \
+        [ "$(uname -m)" != "s390x" ] && \
+        [ "$(uname -m)" != "ppc64le" ] && exit 0
+
+      set +ex
+      craftctl default
+      set -ex
+
+      mv "${CRAFT_PART_INSTALL}" "${CRAFT_PART_INSTALL}.tmp"
+      mkdir -p "${CRAFT_PART_INSTALL}/zfs-2.2/bin" "${CRAFT_PART_INSTALL}/zfs-2.2/lib"
+      mv "${CRAFT_PART_INSTALL}.tmp/sbin/zfs" "${CRAFT_PART_INSTALL}/zfs-2.2/bin/"
+      mv "${CRAFT_PART_INSTALL}.tmp/sbin/zpool" "${CRAFT_PART_INSTALL}/zfs-2.2/bin/"
+      mv "${CRAFT_PART_INSTALL}.tmp/lib/udev/zvol_id" "${CRAFT_PART_INSTALL}/zfs-2.2/bin/"
+      mv "${CRAFT_PART_INSTALL}.tmp/lib/"*so* "${CRAFT_PART_INSTALL}/zfs-2.2/lib/"
       rm -Rf "${CRAFT_PART_INSTALL}.tmp"
 
 
@@ -1298,9 +1333,9 @@ parts:
       patch -p1 $CRAFT_PART_INSTALL/snap/lxd/current/lxcfs/lxc.mount.hook < "${CRAFT_PROJECT_DIR}/patches/lxcfs-0001-hook.patch"
 
   lxd:
-    source: https://github.com/lxc/lxd
+    source: https://github.com/canonical/lxd
     source-type: git
-    source-tag: lxd-5.15
+    source-tag: lxd-5.16
     after:
       - lxc
       - dqlite
@@ -1334,8 +1369,8 @@ parts:
 
       # Setup the GOPATH
       rm -Rf "${GOPATH}"
-      mkdir -p "${GOPATH}/src/github.com/lxc"
-      ln -s "$(pwd)" "${GOPATH}/src/github.com/lxc/lxd"
+      mkdir -p "${GOPATH}/src/github.com/canonical"
+      ln -s "$(pwd)" "${GOPATH}/src/github.com/canonical/lxd"
 
       # Download the dependencies
       go get -d -v ./...
@@ -1347,16 +1382,6 @@ parts:
       git config user.email "noreply@lists.canonical.com"
       git config user.name "LXD snap builder"
 
-      git cherry-pick d6b87a9e60e6bf1e9c5e45172801a91ee10745ca # lxc/rebuild: Restart instance if it was stopped
-      git cherry-pick 31ef2a31a91cc5bfca3ff8dda9a1e2ed046a4063 # lxd/instance/rebuild: Fix getSourceImageFromInstanceSource usage
-      git cherry-pick 20f1f971ad71e2700839e27a7e74fbe2e020850c # lxc/rebuild: Don't stop all instances on force
-      git cherry-pick 7a127748a3d548ad9812ad4514aadd1b419c2ed4 # lxd/instance/drivers/qemu: Use uint32 for vsock Context ID
-      git cherry-pick 67f40160bd96b9e1e32a68188677c54b64f46314 # lxd/instance/drivers/qemu: Add function to retrieve the vsock Context ID
-      git cherry-pick 90ea2ce206377bb9f48d14968d89b8e467d365e0 # lxd/instance/drivers/qemu: Pick a random vsock Context ID
-      git cherry-pick 6ed5dccc0913cff892855219e4d8e033d197158e # lxd/device/veth: Fix MTU handling
-      git cherry-pick 569da41bfb23b9dd1194d8b15b2fc3077fedf223 # lxd/device/tap: Fix MTU handling
-      git cherry-pick d05d299413c0e51b81b2a0aa029d1c005b481525 # tests: Update for bridged host MTU behavior
-
       # Setup build environment
       export GOPATH=$(realpath ./.go)
       export CGO_CFLAGS="-I${CRAFT_STAGE}/include/ -I${CRAFT_STAGE}/usr/local/include/"
@@ -1364,12 +1389,12 @@ parts:
       export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
 
       # Build the binaries
-      go build -o "${CRAFT_PART_INSTALL}/bin/lxc" github.com/lxc/lxd/lxc
-      go build -o "${CRAFT_PART_INSTALL}/bin/lxc-to-lxd" github.com/lxc/lxd/lxc-to-lxd
-      go build -o "${CRAFT_PART_INSTALL}/bin/lxd" -tags=libsqlite3 github.com/lxc/lxd/lxd
-      CGO_ENABLED=0 go build -o "${CRAFT_PART_INSTALL}/bin/lxd-agent" -tags=agent,netgo github.com/lxc/lxd/lxd-agent
-      go build -o "${CRAFT_PART_INSTALL}/bin/lxd-benchmark" github.com/lxc/lxd/lxd-benchmark
-      go build -o "${CRAFT_PART_INSTALL}/bin/lxd-user" github.com/lxc/lxd/lxd-user
+      go build -o "${CRAFT_PART_INSTALL}/bin/lxc" github.com/canonical/lxd/lxc
+      go build -o "${CRAFT_PART_INSTALL}/bin/lxc-to-lxd" github.com/canonical/lxd/lxc-to-lxd
+      go build -o "${CRAFT_PART_INSTALL}/bin/lxd" -tags=libsqlite3 github.com/canonical/lxd/lxd
+      CGO_ENABLED=0 go build -o "${CRAFT_PART_INSTALL}/bin/lxd-agent" -tags=agent,netgo github.com/canonical/lxd/lxd-agent
+      go build -o "${CRAFT_PART_INSTALL}/bin/lxd-benchmark" github.com/canonical/lxd/lxd-benchmark
+      go build -o "${CRAFT_PART_INSTALL}/bin/lxd-user" github.com/canonical/lxd/lxd-user
 
       # Setup bash completion
       mkdir -p ${CRAFT_PART_INSTALL}/etc/bash_completion.d/
@@ -1508,6 +1533,7 @@ parts:
       - zfs-0-8
       - zfs-2-0
       - zfs-2-1
+      - zfs-2-2
       - lxc
       - lxcfs
       - criu
@@ -1526,7 +1552,7 @@ parts:
       strip -s ${CRAFT_PRIME}/lib/libdqlite*
       strip -s ${CRAFT_PRIME}/lib/libsqlite*
 
-      for zfs in zfs-0.8 zfs-2.0 zfs-2.1; do
+      for zfs in zfs-0.8 zfs-2.0 zfs-2.1 zfs-2.2; do
           [ ! -d "${CRAFT_PRIME}/${zfs}" ] && continue
           strip -s ${CRAFT_PRIME}/${zfs}/bin/* ${CRAFT_PRIME}/${zfs}/lib/*
       done
