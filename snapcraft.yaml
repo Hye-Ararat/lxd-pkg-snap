@@ -2,7 +2,7 @@ name: lxd
 base: core22
 assumes:
   - snapd2.39
-version: "5.16"
+version: "5.17"
 grade: stable
 summary: LXD - container and VM manager
 description: |-
@@ -251,6 +251,7 @@ parts:
       - raft
       - sqlite
     source: https://github.com/canonical/dqlite
+    source-commit: 641fdfdbb9ee7f1e3f369da45dc839cd7f749785
     source-type: git
     source-depth: 1
     plugin: autotools
@@ -281,6 +282,7 @@ parts:
       echo "CONFIG_QEMU_HARDWARE=y" > .config
       echo "CONFIG_CSM=y" >> .config
       echo "CONFIG_BOOTSPLASH=n" >> .config
+      echo "CONFIG_SDCARD=n" >> .config
       echo "CONFIG_ROM_SIZE=128" >> .config
       make oldnoconfig V=1
       make V=1 PYTHON=python3
@@ -539,7 +541,7 @@ parts:
   minio:
     source: https://github.com/minio/minio
     source-type: git
-    source-tag: RELEASE.2023-07-11T21-29-34Z
+    source-tag: RELEASE.2023-08-16T20-17-30Z
     source-depth: 1
     plugin: nil
     build-snaps:
@@ -598,7 +600,7 @@ parts:
       - libnftnl
     source: https://git.netfilter.org/nftables
     source-type: git
-    source-tag: v1.0.7
+    source-tag: v1.0.8
     plugin: autotools
     autotools-configure-parameters:
       - --prefix=
@@ -631,7 +633,7 @@ parts:
       - libseccomp
     source: https://github.com/NVIDIA/libnvidia-container
     source-type: git
-    source-tag: v1.13.4
+    source-tag: v1.13.5
     source-depth: 1
     plugin: make
     build-packages:
@@ -761,7 +763,7 @@ parts:
       - libtpms
     source: https://github.com/stefanberger/swtpm
     source-type: git
-    source-tag: v0.8.0
+    source-tag: v0.8.1
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -857,7 +859,7 @@ parts:
     override-pull: |-
       [ "$(uname -m)" != "x86_64" ] && [ "$(uname -m)" != "aarch64" ] && [ "$(uname -m)" != "ppc64le" ] && [ "$(uname -m)" != "s390x" ] && exit 0
       set -ex
-      git clone https://gitlab.com/qemu-project/qemu . -b v8.0.3
+      git clone https://gitlab.com/qemu-project/qemu . -b v8.0.4
 
     override-build: |-
       [ "$(uname -m)" != "x86_64" ] && [ "$(uname -m)" != "aarch64" ] && [ "$(uname -m)" != "ppc64le" ] && [ "$(uname -m)" != "s390x" ] && exit 0
@@ -945,6 +947,7 @@ parts:
 
   raft:
     source: https://github.com/canonical/raft
+    source-commit: 1e5465d102f8b9151e3f7fb36c13b220bbd9b4a6
     source-type: git
     source-depth: 1
     plugin: autotools
@@ -1182,7 +1185,7 @@ parts:
   zfs-2-2:
     source: https://github.com/openzfs/zfs
     source-type: git
-    source-tag: zfs-2.2.0-rc1
+    source-tag: zfs-2.2.0-rc3
     source-depth: 1
     plugin: autotools
     autotools-configure-parameters:
@@ -1231,7 +1234,7 @@ parts:
       - libseccomp
     source: https://github.com/lxc/lxc
     source-type: git
-    source-tag: lxc-5.0.2
+    source-tag: lxc-5.0.3
     build-packages:
       - libapparmor-dev
       - libcap-dev
@@ -1284,7 +1287,7 @@ parts:
   lxcfs:
     source: https://github.com/lxc/lxcfs
     source-type: git
-    source-tag: lxcfs-5.0.3
+    source-tag: lxcfs-5.0.4
     build-packages:
       - libfuse3-dev
       - libpam0g-dev
@@ -1335,7 +1338,7 @@ parts:
   lxd:
     source: https://github.com/canonical/lxd
     source-type: git
-    source-tag: lxd-5.16
+    source-tag: lxd-5.17
     after:
       - lxc
       - dqlite
@@ -1381,16 +1384,6 @@ parts:
       cd ../src
       git config user.email "noreply@lists.canonical.com"
       git config user.name "LXD snap builder"
-
-      git cherry-pick 6d7b7ef0170e10cef1cea077965e600c049c810f # lxc/utils: Support parsing of anonymous nested structs
-      git cherry-pick 2da3564720a0fbb0ca5fe48ffece64546f613dd2 # test: Add get timestamp property test with instance snapshot
-      git cherry-pick 01e492aaad056c2548e764b7cf869e8376f88ce7 # lxd/device/disk: Fix boot from Windows ISO by setting correct FSType
-      git cherry-pick 4c14fcc6d641c3f1a86dc9a064fe075c0bf5020b # lxd/storage/drivers/volume: Use vol.IsBlockBacked() in ConfigSize
-      git cherry-pick dc968cbcdffef4cba0b178835292ea51b49eb316 # lxd/storage/utils: Use vol.IsBlockBacked in ImageUnpack
-      git cherry-pick 2fe1cc62fa8d47c92e3e97e40a702c9d8b53f534 # lxd/storage/backend/lxd: ImageUnpack usage
-      git cherry-pick c2ff32d6beb03891a9439afebcfec116666de75e # lxd/storage/backend/lxd: Use the result of FillVolumeConfig in EnsureImage when comparing cached volumes
-      git cherry-pick b33cbdb957f60a0dd9bdc1b21f1664aac7312663 # lxd/storage/drivers/driver/zfs/volumes: Don't populate block volume settings for VM volumes in FillVolumeConfig
-      git cherry-pick 7b0b57f9aa9b7aa3f25d9df76f31e0c18b45ec79 # lxd/storage/backend/lxd: Removes unused poolBlockFilesystem function
 
       # Setup build environment
       export GOPATH=$(realpath ./.go)
@@ -1479,6 +1472,7 @@ parts:
   lxd-ui:
     source: https://github.com/canonical/lxd-ui
     source-type: git
+    source-commit: b53587d9774c123f6703f4ce3c5107f87bc7e446
     plugin: nil
     override-pull: |
       [ "$(uname -m)" = "riscv64" ] && exit 0
