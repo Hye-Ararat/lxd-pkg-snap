@@ -2,8 +2,11 @@
 set -eu
 
 # Re-exec outside of apparmor confinement
-if [ -d /sys/kernel/security/apparmor ] && [ "$(cat /proc/self/attr/current)" != "unconfined" ]; then
+if [ -d /sys/kernel/security/apparmor ]; then
+  label="$(cat /proc/self/attr/current 2>/dev/null)"
+  if [ "$label" != "unconfined" ] && [ -n "${label##*(unconfined)}" ]; then
     exec aa-exec -p unconfined -- "$0" "$@"
+  fi
 fi
 
 echo "=> Preparing the system (${SNAP_REVISION})"
@@ -456,18 +459,6 @@ fi
 echo "==> Exposing LXD documentation"
 export LXD_DOCUMENTATION="${SNAP_CURRENT}/share/lxd-documentation"
 
-# Setup shiftfs
-if [ "${shiftfs_enable:-"auto"}" = "auto" ]; then
-    echo "==> Disabling shiftfs on this kernel (auto)"
-    shiftfs_enable="false"
-elif [ "${shiftfs_enable:-"auto"}" = "false" ]; then
-    echo "==> Disabling shiftfs at user request"
-fi
-
-if [ "${shiftfs_enable:-"auto"}" = "false" ]; then
-    export LXD_SHIFTFS_DISABLE=true
-fi
-
 # LXC
 ## Host specific overrides
 mkdir -p "${SNAP_COMMON}/lxc"
@@ -609,6 +600,11 @@ if [ -L "${SNAP_COMMON}/lxd/lxd.db" ]; then
     echo "=> Moving database from versioned path to common"
     rm "${SNAP_COMMON}/lxd/lxd.db"
     mv "${SNAP_DATA}/lxd/lxd.db" "${SNAP_COMMON}/lxd/lxd.db"
+fi
+
+# Warn the user if a debug LXC binary is found
+if [ -x "${SNAP_COMMON}/lxc.debug" ]; then
+    echo "==> WARNING: A custom debug LXC binary was found!"
 fi
 
 ## Start lxd
