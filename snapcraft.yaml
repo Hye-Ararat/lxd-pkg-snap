@@ -265,8 +265,12 @@ parts:
       - lib/*/libicudata.so*
       - lib/*/libicuuc.so*
       - lib/*/liblber-2.5.so*
+      - lib/*/liblber.so*
       - lib/*/libldap-2.5.so*
+      - lib/*/libldap.so*
+      - lib/*/liblmdb.so*
       - lib/*/liblua5.4.so*
+      - lib/*/libncurses.so*
       - lib/*/libndctl.so*
       - lib/*/libnghttp2.so*
       - lib/*/liboath.so*
