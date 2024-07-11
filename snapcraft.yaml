@@ -98,6 +98,8 @@ apps:
       - system-observe
 
   daemon:
+    command-chain:
+      - bin/gpu-2404-custom-wrapper
     command: commands/daemon.start
     reload-command: commands/daemon.reload
     stop-command: commands/daemon.stop
@@ -1632,6 +1634,15 @@ parts:
     prime:
       - bin/setup-shmounts
 
+  gpu-2404:
+    after:
+      - lxd
+      - qemu
+    source: https://github.com/canonical/gpu-snap.git
+    plugin: dump
+    override-prime: |
+      ${CRAFT_PART_SRC}/bin/gpu-2404-cleanup mesa-2404 nvidia-2404
+
   strip:
     after:
       - btrfs
@@ -1734,6 +1745,7 @@ parts:
       commands/snap-query: bin/
       hooks/: snap/hooks/
       wrappers/lxd-stophook: bin/lxd
+      wrappers/gpu-2404-custom-wrapper: bin/
       wrappers/editor: bin/
       wrappers/remote-viewer: bin/
       wrappers/sshfs: bin/
