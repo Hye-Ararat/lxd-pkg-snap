@@ -73,6 +73,20 @@ plugs:
  ovn-chassis:
    interface: content
    target: "$SNAP_DATA/microovn/chassis"
+ gpu-2404:
+   interface: content
+   target: $SNAP/gpu-2404
+#   default-provider: mesa-2404
+ qemu-external:
+   interface: content
+   content: qemu-external-binaries
+   target: $SNAP/external/qemu
+
+layout:
+  /usr/share/libdrm:
+    bind: $SNAP/gpu-2404/libdrm
+  /usr/share/drirc.d:
+    symlink: $SNAP/gpu-2404/drirc.d
 
 apps:
   # Main commands
