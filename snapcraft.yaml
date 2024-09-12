@@ -930,6 +930,7 @@ parts:
       - --disable-docs
       - --disable-fuse
       - --disable-glusterfs
+      - --disable-gnutls
       - --disable-guest-agent
       - --disable-parallels
       - --disable-pvrdma
