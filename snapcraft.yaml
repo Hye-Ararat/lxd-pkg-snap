@@ -937,6 +937,7 @@ parts:
       - --disable-libnfs
       - --disable-libpmem
       - --disable-libssh
+      - --disable-nettle
       - --disable-parallels
       - --disable-pvrdma
       - --disable-qed
