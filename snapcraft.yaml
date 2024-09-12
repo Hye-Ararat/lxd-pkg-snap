@@ -933,6 +933,7 @@ parts:
       - --disable-gnutls
       - --disable-gtk
       - --disable-guest-agent
+      - --disable-libiscsi
       - --disable-parallels
       - --disable-pvrdma
       - --disable-qed
