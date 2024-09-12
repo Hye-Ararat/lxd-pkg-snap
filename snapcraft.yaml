@@ -945,6 +945,7 @@ parts:
       - --disable-sdl
       - --disable-slirp
       - --disable-user
+      - --disable-vde
       - --disable-vdi
       - --disable-vnc
       - --disable-xen
