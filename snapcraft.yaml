@@ -941,6 +941,7 @@ parts:
       - --disable-parallels
       - --disable-pvrdma
       - --disable-qed
+      - --disable-sdl
       - --disable-slirp
       - --disable-user
       - --disable-vdi
