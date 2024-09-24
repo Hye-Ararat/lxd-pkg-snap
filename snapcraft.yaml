@@ -331,8 +331,6 @@ parts:
       - lib/*/libproto*
 
   dqlite:
-    after:
-      - sqlite
     source: https://github.com/canonical/dqlite
     # XXX: We often cherry-pick for candidate builds so don't do shallow clone
     #source-depth: 1
@@ -345,8 +343,10 @@ parts:
     stage-packages:
       - liblz4-1
       - libuv1t64
+      - sqlite3
     build-packages:
       - liblz4-dev
+      - libsqlite3-dev
       - libuv1-dev
     override-build: |
       set -ex
@@ -360,9 +360,12 @@ parts:
 
       craftctl default
     organize:
+      usr/bin/: bin/
       usr/lib/: lib/
     prime:
+      - bin/sqlite3
       - lib/libdqlite*so*
+      - lib/*/libsqlite3*so*
       - lib/*/libuv*
       #- lib/*/liblz4.so*  # use liblz4.so from the base snap
 
@@ -1123,20 +1126,6 @@ parts:
     prime:
       - share/qemu/*
 
-  sqlite:
-    source: https://github.com/sqlite/sqlite
-    source-commit: 189e44dfecdc7868bb860dfb5d98eab371318c37 # version-3.45.1
-    source-depth: 1
-    source-type: git
-    plugin: autotools
-    autotools-configure-parameters:
-      - --prefix=
-    build-packages:
-      - tcl
-    prime:
-      - bin/sqlite3
-      - lib/libsqlite3*so*
-
   squashfs-tools-ng:
     source: https://github.com/AgentD/squashfs-tools-ng
     source-commit: 8f9966c8ea3ea8a854941d041e7fcb9eb4f772fb # v1.3.1
@@ -1493,7 +1482,6 @@ parts:
     after:
       - lxc
       - dqlite
-      - sqlite
     build-packages:
       - cmake
       - libacl1-dev
@@ -1686,7 +1674,6 @@ parts:
       - ovn
       - qemu-ovmf-secureboot
       - spice-server
-      - sqlite
       - squashfs-tools-ng
       - swtpm
       - virtiofsd
