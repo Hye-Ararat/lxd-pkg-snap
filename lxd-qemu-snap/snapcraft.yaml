@@ -69,9 +69,11 @@ parts:
   qemu:
     after:
       - virgl
-    source: https://github.com/qemu/qemu.git
-    source-tag: v9.0.3
+    source: https://gitlab.com/qemu-project/qemu
+    source-commit: 6a54d5cf55b446ec50d5c5a0b0568a7b28e2913e # v9.0.3
     source-depth: 1
+    source-submodules: []
+    source-type: git
     plugin: autotools
     autotools-configure-parameters:
       - --prefix=/external/qemu
