@@ -1509,6 +1509,7 @@ parts:
 
       git cherry-pick a014ad5514ee753d602b55ebce6f743a2efdbe5a # lxd/instance/drivers/driver/qemu: Fix nvram file update from 2MB OVMF and CSM mode
       git cherry-pick dd7b99ed41424c3e86cf4fbd245648527088de63 # lxd/instance/instance_utils: Fix detection of suitable architecture when LXD is clustered
+      git cherry-pick 8a40cd43747687494ea7cd7487b04a090cfd63f1 # Patches: Remove volatile.%.last_state.ip_addresses keys more efficiently
 
       # Setup build environment
       export GOPATH="$(realpath ./.go)"
