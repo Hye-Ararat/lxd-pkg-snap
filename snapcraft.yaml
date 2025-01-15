@@ -1357,7 +1357,7 @@ parts:
 
   lxcfs:
     source: https://github.com/lxc/lxcfs
-    source-commit: 5df434be88d69406985083a2f591278034a7227b # v6.0.2
+    source-commit: 998ed0e374f515ad09d88745a085e277ab4da7a6 # v6.0.3
     source-depth: 1
     source-type: git
     build-packages:
