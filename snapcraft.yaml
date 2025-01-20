@@ -520,8 +520,8 @@ parts:
 
   liburing:
     source: https://github.com/axboe/liburing
+    source-commit: f4e42a515cd78c8c9cac2be14222834be5f8df2b # liburing-2.5
     source-depth: 1
-    source-tag: liburing-2.5
     source-type: git
     plugin: autotools
     autotools-configure-parameters:
@@ -620,7 +620,7 @@ parts:
   nasm:
     source: https://github.com/netwide-assembler/nasm
     source-depth: 1
-    source-tag: nasm-2.16.03
+    source-commit: cd37b81b320ead83ca5a6bbce5da0a6456663bc6 # nasm-2.16.03
     source-type: git
     plugin: autotools
     autotools-configure-parameters:
@@ -748,8 +748,8 @@ parts:
 
   openvswitch:
     source: https://github.com/openvswitch/ovs
+    source-commit: 2b87b844dbedeb2582920634205b52f1eea7c0b7 # v3.3.1
     source-depth: 1
-    source-tag: v3.3.1
     source-type: git
     plugin: autotools
     autotools-configure-parameters:
@@ -772,8 +772,8 @@ parts:
     after:
       - openvswitch
     source: https://github.com/ovn-org/ovn
+    source-commit: 41836afafd99d579bb277f638a31bffd5cf3efa3 # v24.03.2
     source-depth: 1
-    source-tag: v24.03.2
     source-type: git
     plugin: autotools
     autotools-configure-parameters:
@@ -853,8 +853,8 @@ parts:
     after:
       - libtpms
     source: https://github.com/stefanberger/swtpm
+    source-commit: 507d14219dde88eb3eb2d10d15872d4044aa9d3e # v0.8.2
     source-depth: 1
-    source-tag: v0.8.2
     source-type: git
     plugin: autotools
     autotools-configure-parameters:
@@ -890,8 +890,8 @@ parts:
       - spice-protocol
       - spice-server
     source: https://git.launchpad.net/ubuntu/+source/qemu
+    source-commit: 50a4fe555e21d4b633580d63ae45e807de9e2f91 # import/1%8.2.2+ds-0ubuntu1.5
     source-depth: 1
-    source-tag: import/1%8.2.1+ds-1ubuntu5
     source-type: git
     plugin: autotools
     autotools-configure-parameters:
@@ -1075,8 +1075,8 @@ parts:
 
   sqlite:
     source: https://github.com/sqlite/sqlite
+    source-commit: 189e44dfecdc7868bb860dfb5d98eab371318c37 # version-3.45.1
     source-depth: 1
-    source-tag: version-3.45.1
     source-type: git
     plugin: autotools
     autotools-configure-parameters:
@@ -1104,8 +1104,8 @@ parts:
 
   virtiofsd:
     source: https://gitlab.com/virtio-fs/virtiofsd
+    source-commit: 3988b7304ceb2fdb4eed2c8bf8682e6ea19c4ecc # v1.10.1
     source-depth: 1
-    source-tag: v1.10.1
     source-type: git
     plugin: rust
     rust-channel: stable
