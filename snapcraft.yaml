@@ -256,6 +256,7 @@ parts:
       - lib/*/libboost_iostreams.so*
       - lib/*/libboost_program_options.so*
       - lib/*/libboost_thread.so*
+      - lib/*/libboost_url.so*
       - lib/*/libbrotlicommon.so*
       - lib/*/libbrotlidec.so*
       - lib/*/libcurl-gnutls.so*
