@@ -1387,7 +1387,7 @@ parts:
     source: https://github.com/canonical/lxd
     # XXX: We often cherry-pick for candidate builds so don't do shallow clone
     #source-depth: 1
-    source-commit: 01c912bff20bc04208ddfcfca558ec76a7dac0b8 # LXD 6.2
+    source-commit: 2e5ca4f50e83e53db3f5c16a0948b615c82dba31 # LXD pre-6.3
     source-type: git
     after:
       - lxc
@@ -1442,11 +1442,6 @@ parts:
       cd ../src
       git config user.email "noreply@lists.canonical.com"
       git config user.name "LXD snap builder"
-
-      git cherry-pick a014ad5514ee753d602b55ebce6f743a2efdbe5a # lxd/instance/drivers/driver/qemu: Fix nvram file update from 2MB OVMF and CSM mode
-      git cherry-pick dd7b99ed41424c3e86cf4fbd245648527088de63 # lxd/instance/instance_utils: Fix detection of suitable architecture when LXD is clustered
-      git cherry-pick 8a40cd43747687494ea7cd7487b04a090cfd63f1 # Patches: Remove volatile.%.last_state.ip_addresses keys more efficiently
-      git cherry-pick bc61d00724e69133d96c2151a71eabe1e49a689c # doc: fix malformed ref to cloud-init docs
 
       # Setup build environment
       export GOPATH="$(realpath ./.go)"
