@@ -332,9 +332,8 @@ parts:
 
   dqlite:
     source: https://github.com/canonical/dqlite
-    # XXX: We often cherry-pick for candidate builds so don't do shallow clone
-    #source-depth: 1
-    source-commit: 6339f32a9b15b31163798de309a585927b22025f # v1.18.0
+    source-depth: 1
+    source-commit: 7a37bdfbf0e83edc09ecc621f02a6c7159c9a816 # v1.18.1
     source-type: git
     plugin: autotools
     autotools-configure-parameters:
@@ -348,17 +347,6 @@ parts:
       - liblz4-dev
       - libsqlite3-dev
       - libuv1-dev
-    override-build: |
-      set -ex
-
-      # Git cherry-picks
-      cd ../src
-      git config user.email "noreply@lists.canonical.com"
-      git config user.name "LXD snap builder"
-
-      git cherry-pick -x 7a37bdfbf0e83edc09ecc621f02a6c7159c9a816 # Segfault fix
-
-      craftctl default
     organize:
       usr/bin/: bin/
       usr/lib/: lib/
